@@ -16,6 +16,7 @@ jobs:
           # CircleCI 2.0 automatically sets a $BASH_ENV variable to a random name in /tmp, and will source this file for each step.
           # https://circleci.com/docs/2.0/env-vars/#interpolating-environment-variables-to-set-other-environment-variables
           command: |
+            echo 'export DEBIAN_FRONTEND=noninteractive' >> $BASH_ENV
             echo 'export THIRDPARTY_DIR=${PWD}/3rdparty' >> $BASH_ENV
             echo 'export GTEST_DIR=${THIRDPARTY_DIR}/googletest-master/googletest' >> $BASH_ENV
             echo 'export GMOCK_DIR=${THIRDPARTY_DIR}/googletest-master/googlemock' >> $BASH_ENV
@@ -102,6 +103,7 @@ jobs:
           # CircleCI 2.0 automatically sets a $BASH_ENV variable to a random name in /tmp, and will source this file for each step.
           # https://circleci.com/docs/2.0/env-vars/#interpolating-environment-variables-to-set-other-environment-variables
           command: |
+            echo 'export DEBIAN_FRONTEND=noninteractive' >> $BASH_ENV
             echo 'export THIRDPARTY_DIR=${PWD}/3rdparty' >> $BASH_ENV
             echo 'export GTEST_DIR=${THIRDPARTY_DIR}/googletest-master/googletest' >> $BASH_ENV
             echo 'export GMOCK_DIR=${THIRDPARTY_DIR}/googletest-master/googlemock' >> $BASH_ENV
