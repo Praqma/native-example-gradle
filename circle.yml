@@ -89,7 +89,7 @@ jobs:
           path: build/exe
           destination: build-exe
       - store_artifacts:
-          path: ${GMOCK_DIR}/build
+          path: googletest-master/googletest/build
   test:
     docker:
       - image: circleci/openjdk:jdk
@@ -164,7 +164,7 @@ jobs:
           path: build/test-results
           destination: build-test-results
       - store_artifacts:
-          path: ${GMOCK_DIR}/build
+          path: googletest-master/googletest/build
 workflows:
   version: 2
   build_and_test:
