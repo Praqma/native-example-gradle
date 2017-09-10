@@ -1,3 +1,4 @@
 [submodule "3rdparty/googletest"]
 	path = 3rdparty/googletest-master
 	url = git@github.com:google/googletest.git
+	ignore = dirty

@@ -1,0 +1,168 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:jdk
+        # Environment variable for all commands executed in the container.
+        environment:
+          THIRDPARTY_DIR: ${PWD}/3rdparty
+          GTEST_DIR: ${THIRDPARTY_DIR}/googletest-master/googletest
+    working_directory: ~/sheeeng/omed-gradle
+    steps:
+      - checkout
+      - run:
+          name: Interpolating Environment Variables to Set Other Environment Variables
+          # If you need to interpolate other environment variables to set an environment variable, the only place to do this at the moment is in bash.
+          # CircleCI 2.0 automatically sets a $BASH_ENV variable to a random name in /tmp, and will source this file for each step.
+          # https://circleci.com/docs/2.0/env-vars/#interpolating-environment-variables-to-set-other-environment-variables
+          command: |
+            echo 'export THIRDPARTY_DIR=${PWD}/3rdparty' >> $BASH_ENV
+            echo 'export GTEST_DIR=${THIRDPARTY_DIR}/googletest-master/googletest' >> $BASH_ENV
+            echo 'export GMOCK_DIR=${THIRDPARTY_DIR}/googletest-master/googlemock' >> $BASH_ENV
+      - run:
+          name: Update & Upgrade
+          command: |
+            set -x
+            sudo apt-get update
+            sudo apt-get upgrade
+      - run:
+          name: Check Version
+          command: |
+            set -x
+            java -version
+      - run:
+          name: Setup Make Prerequisites
+          command: |
+            set -x
+            echo "Setup Make Prerequisites ..."
+            sudo apt-get install --yes build-essential
+            gcc --version
+      - run:
+          name: Setup CircleCI Prerequisites
+          # The git openssh tar gzip ca-certificates tools required for CircleCI.
+          # The alpine-sdk is similar to build-essential, need to be verified whether it is needed.
+          # https://circleci.com/docs/2.0/custom-images/#adding-required-and-custom-tools-or-files
+          command: |
+            set -x
+            echo "Setup CircleCI Prerequisites ..."
+            sudo apt-get install --yes pkg-config zip g++ zlib1g-dev unzip python
+            gcc --version
+      - run:
+          name: Setup Google Test
+          command: |
+            set -x
+            echo "Setup Google Test ..."
+            echo "Build Static Library for Google Test ..."
+            mkdir ${GTEST_DIR}/build ${GTEST_DIR}/obj
+            g++ -isystem ${GTEST_DIR}/include -I${GTEST_DIR} \
+                -pthread -c ${GTEST_DIR}/src/gtest-all.cc \
+                -o ${GTEST_DIR}/obj/gtest-all.o
+            ar -rv ${GTEST_DIR}/build/libgtest.a \
+                ${GTEST_DIR}/obj/gtest-all.o
+            ar -t ${GTEST_DIR}/build/libgtest.a
+      - run:
+          name: List Gradle Tasks
+          command: |
+            set -x
+            echo "List Gradle Tasks ..."
+            ./gradlew tasks
+      - run:
+          name: Build with Gradle
+          command: |
+            set -x
+            echo "Build with Gradle ..."
+            ./gradlew greeterStaticLibrary
+            ./gradlew greeterSharedLibrary
+            ./gradlew mainExecutable
+      - run:
+          name: Run with Gradle
+          command: |
+            set -x
+            echo "Run with Gradle ..."
+            LD_LIBRARY_PATH=build/libs/greeter/shared/ ./build/exe/main/main
+      - store_artifacts:
+          path: build/exe
+          destination: build-exe
+      - store_artifacts:
+          path: ${GMOCK_DIR}/build
+  test:
+    docker:
+      - image: circleci/openjdk:jdk
+    working_directory: ~/sheeeng/omed-gradle
+    steps:
+      - checkout
+      - run:
+          name: Interpolating Environment Variables to Set Other Environment Variables
+          # If you need to interpolate other environment variables to set an environment variable, the only place to do this at the moment is in bash.
+          # CircleCI 2.0 automatically sets a $BASH_ENV variable to a random name in /tmp, and will source this file for each step.
+          # https://circleci.com/docs/2.0/env-vars/#interpolating-environment-variables-to-set-other-environment-variables
+          command: |
+            echo 'export THIRDPARTY_DIR=${PWD}/3rdparty' >> $BASH_ENV
+            echo 'export GTEST_DIR=${THIRDPARTY_DIR}/googletest-master/googletest' >> $BASH_ENV
+            echo 'export GMOCK_DIR=${THIRDPARTY_DIR}/googletest-master/googlemock' >> $BASH_ENV
+      - run:
+          name: Update & Upgrade
+          command: |
+            set -x
+            sudo apt-get update
+            sudo apt-get upgrade
+      - run:
+          name: Check Version
+          command: |
+            set -x
+            java -version
+      - run:
+          name: Setup Make Prerequisites
+          command: |
+            set -x
+            echo "Setup Make Prerequisites ..."
+            sudo apt-get install --yes build-essential
+            gcc --version
+      - run:
+          name: Setup CircleCI Prerequisites
+          # The git openssh tar gzip ca-certificates tools required for CircleCI.
+          # The alpine-sdk is similar to build-essential, need to be verified whether it is needed.
+          # https://circleci.com/docs/2.0/custom-images/#adding-required-and-custom-tools-or-files
+          command: |
+            set -x
+            echo "Setup CircleCI Prerequisites ..."
+            sudo apt-get install --yes pkg-config zip g++ zlib1g-dev unzip python
+            gcc --version
+      - run:
+          name: Setup Google Test
+          command: |
+            set -x
+            echo "Setup Google Test ..."
+            echo "Build Static Library for Google Test ..."
+            mkdir ${GTEST_DIR}/build ${GTEST_DIR}/obj
+            g++ -isystem ${GTEST_DIR}/include -I${GTEST_DIR} \
+                -pthread -c ${GTEST_DIR}/src/gtest-all.cc \
+                -o ${GTEST_DIR}/obj/gtest-all.o
+            ar -rv ${GTEST_DIR}/build/libgtest.a \
+                ${GTEST_DIR}/obj/gtest-all.o
+            ar -t ${GTEST_DIR}/build/libgtest.a
+      - run:
+          name: Test with Gradle on Google Test
+          command: |
+            set -x
+            echo "Test with Gradle on Google Test ..."
+            ./gradlew build
+      - store_artifacts:
+          path: build/exe
+          destination: build-exe
+      - store_artifacts:
+          path: build/test-results
+          destination: build-test-results
+      - store_artifacts:
+          path: ${GMOCK_DIR}/build
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
