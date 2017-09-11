@@ -3,10 +3,6 @@ jobs:
   build:
     docker:
       - image: circleci/openjdk:jdk
-        # Environment variable for all commands executed in the container.
-        environment:
-          THIRDPARTY_DIR: ${PWD}/3rdparty
-          GTEST_DIR: ${THIRDPARTY_DIR}/googletest-master/googletest
     working_directory: ~/sheeeng/omed-gradle
     steps:
       - checkout
