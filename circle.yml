@@ -17,11 +17,6 @@ jobs:
             echo 'export GTEST_DIR=${THIRDPARTY_DIR}/googletest-master/googletest' >> $BASH_ENV
             echo 'export GMOCK_DIR=${THIRDPARTY_DIR}/googletest-master/googlemock' >> $BASH_ENV
       - run:
-          name: Get Submodule(s)
-          command: |
-            git submodule init
-            git submodule update
-      - run:
           name: Update & Upgrade
           command: |
             set -x
@@ -49,6 +44,11 @@ jobs:
             echo "Setup CircleCI Prerequisites ..."
             sudo apt-get install --yes pkg-config zip g++ zlib1g-dev unzip python
             gcc --version
+      - run:
+          name: Get Submodule(s)
+          command: |
+            git submodule init
+            git submodule update
       - run:
           name: Setup Google Test
           command: |
@@ -104,11 +104,6 @@ jobs:
             echo 'export GTEST_DIR=${THIRDPARTY_DIR}/googletest-master/googletest' >> $BASH_ENV
             echo 'export GMOCK_DIR=${THIRDPARTY_DIR}/googletest-master/googlemock' >> $BASH_ENV
       - run:
-          name: Get Submodule(s)
-          command: |
-            git submodule init
-            git submodule update
-      - run:
           name: Update & Upgrade
           command: |
             set -x
@@ -136,6 +131,11 @@ jobs:
             echo "Setup CircleCI Prerequisites ..."
             sudo apt-get install --yes pkg-config zip g++ zlib1g-dev unzip python
             gcc --version
+      - run:
+          name: Get Submodule(s)
+          command: |
+            git submodule init
+            git submodule update
       - run:
           name: Setup Google Test
           command: |
