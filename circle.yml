@@ -83,10 +83,10 @@ jobs:
             echo "Run with Gradle ..."
             LD_LIBRARY_PATH=build/libs/greeter/shared/ ./build/exe/main/main
       - store_artifacts:
-          path: build/exe
+          path: build/exe/
           destination: build-exe
       - store_artifacts:
-          path: googletest-master/googletest/build
+          path: googletest-master/googletest/build/
   test:
     docker:
       - image: circleci/openjdk:jdk
@@ -156,13 +156,13 @@ jobs:
             echo "Test with Gradle on Google Test ..."
             ./gradlew build
       - store_artifacts:
-          path: build/exe
+          path: build/exe/
           destination: build-exe
       - store_artifacts:
-          path: build/test-results
+          path: build/test-results/
           destination: build-test-results
       - store_artifacts:
-          path: googletest-master/googletest/build
+          path: googletest-master/googletest/build/
 workflows:
   version: 2
   build_and_test:
