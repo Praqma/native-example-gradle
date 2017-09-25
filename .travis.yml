@@ -12,3 +12,38 @@ before_install:
 script:
   - clang --version
   - gcc --version
+
+script:
+  - export DEBIAN_FRONTEND=noninteractive
+  - export THIRDPARTY_DIR=${PWD}/3rdparty
+  - export GTEST_DIR=${THIRDPARTY_DIR}/googletest-master/googletest
+  - export GMOCK_DIR=${THIRDPARTY_DIR}/googletest-master/googlemock
+
+script:
+  - echo "Setup Google Test ..."
+  - echo "Build Static Library for Google Test ..."
+  - mkdir ${GTEST_DIR}/build ${GTEST_DIR}/obj
+  - g++ -isystem ${GTEST_DIR}/include -I${GTEST_DIR} \
+      -pthread -c ${GTEST_DIR}/src/gtest-all.cc \
+      -o ${GTEST_DIR}/obj/gtest-all.o
+  - ar -rv ${GTEST_DIR}/build/libgtest.a \
+      ${GTEST_DIR}/obj/gtest-all.o
+  - ar -t ${GTEST_DIR}/build/libgtest.a
+
+script:
+  - echo "List Gradle Tasks ..."
+  - ./gradlew tasks
+
+script:
+  - echo "Build with Gradle ..."
+  - ./gradlew greeterStaticLibrary
+  - ./gradlew greeterSharedLibrary
+  - ./gradlew mainExecutable
+
+script:
+  - echo "Run with Gradle ..."
+  - LD_LIBRARY_PATH=build/libs/greeter/shared/ ./build/exe/main/main
+
+script:
+  - echo "Test with Gradle on Google Test ..."
+  - ./gradlew build
