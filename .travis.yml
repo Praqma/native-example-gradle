@@ -21,10 +21,10 @@ script:
   - echo "Setup Google Test ..."
   - echo "Build Static Library for Google Test ..."
   - mkdir ${GTEST_DIR}/build ${GTEST_DIR}/obj
-  - g++ -isystem ${GTEST_DIR}/include -I${GTEST_DIR} \
-      -pthread -c ${GTEST_DIR}/src/gtest-all.cc \
+  - g++ -isystem ${GTEST_DIR}/include -I${GTEST_DIR}
+      -pthread -c ${GTEST_DIR}/src/gtest-all.cc
       -o ${GTEST_DIR}/obj/gtest-all.o
-  - ar -rv ${GTEST_DIR}/build/libgtest.a \
+  - ar -rv ${GTEST_DIR}/build/libgtest.a
       ${GTEST_DIR}/obj/gtest-all.o
   - ar -t ${GTEST_DIR}/build/libgtest.a
   -
