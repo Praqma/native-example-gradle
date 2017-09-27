@@ -73,7 +73,7 @@ jobs:
           command: |
             set -x
             echo "Run with Gradle ..."
-            LD_LIBRARY_PATH=build/libs/greeter/shared/ ./build/exe/main/main
+            LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${PWD}/build/libs/greeter/shared/:${PWD}/build/libs/shapey/shared/ ${PWD}/build/exe/mainy/mainy
       - store_artifacts:
           path: build/exe/
           destination: build-exe
