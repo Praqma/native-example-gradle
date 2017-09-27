@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "mainy/greety.h"
+#include "greety.h"
 
 TEST(GreetyTest, GetGreety) {
   EXPECT_EQ(get_greety("Bazel"), "Hello, Bazel?");

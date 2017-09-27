@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "liby/shapey.h"
+#include "shapey.h"
 
 TEST(ShapeyTest, GetWidth) {
   Shapey shapey;

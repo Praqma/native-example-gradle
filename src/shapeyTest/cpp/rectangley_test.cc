@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "liby/rectangley.h"
+#include "rectangley.h"
 
 TEST(RectangleyTest, GetArea) {
   Rectangley rectangley;

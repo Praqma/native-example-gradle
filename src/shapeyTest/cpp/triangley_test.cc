@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "liby/triangley.h"
+#include "triangley.h"
 
 TEST(TriangleyTest, GetArea) {
   Triangley triangley;
