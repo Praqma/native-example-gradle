@@ -1,4 +1,4 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 #include "triangley.h"
 
 TEST(TriangleyTest, GetArea) {

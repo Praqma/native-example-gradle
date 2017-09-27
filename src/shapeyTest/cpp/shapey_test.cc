@@ -1,4 +1,4 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 #include "shapey.h"
 
 TEST(ShapeyTest, GetWidth) {
@@ -23,4 +23,9 @@ TEST(ShapeyTest, GetHeight) {
   shapey.setHeight(8);
   EXPECT_EQ(shapey.height(), 8);
   EXPECT_NE(shapey.height(), 16);
+}
+
+int main(int argc, char **argv) {
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }

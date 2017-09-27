@@ -1,4 +1,4 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 #include "greety.h"
 
 TEST(GreetyTest, GetGreety) {
