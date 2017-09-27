@@ -65,7 +65,9 @@ jobs:
             echo "Build with Gradle ..."
             ./gradlew greeterStaticLibrary
             ./gradlew greeterSharedLibrary
-            ./gradlew mainExecutable
+            ./gradlew shapeyStaticLibrary
+            ./gradlew shapeySharedLibrary
+            ./gradlew mainyExecutable
       - run:
           name: Run with Gradle
           command: |
