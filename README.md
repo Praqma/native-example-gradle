@@ -22,3 +22,13 @@ See [native](https://github.com/Praqma/native) repository for more examples.
 [![GitHub Tags](https://img.shields.io/github/tag/praqma/native-example-gradle.svg)](https://img.shields.io/github/tag/praqma/native-example-gradle.svg)
 [![GitHub Releases](https://img.shields.io/github/release/praqma/native-example-gradle.svg)](https://img.shields.io/github/release/praqma/native-example-gradle.svg)
 [![GitHub Issues](https://img.shields.io/github/issues/praqma/native-example-gradle.svg)](https://img.shields.io/github/issues/praqma/native-example-gradle.svg) -->
+
+## Getting started
+
+Run `git submodule update --init` to initialize the googletest submodule.
+
+Run `./gradlew build`
+
+## Todo
+
+Move to static libraries
