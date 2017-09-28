@@ -3,15 +3,15 @@ apply plugin: 'cpp'
 
 model {
     repositories {
-/*        libs(PrebuiltLibraries) {
+/*      libs(PrebuiltLibraries) {
             googleTest {
                 headers.srcDir new File(projectDir, "3rdparty/googletest-master/googletest/include")
                 binaries.withType(StaticLibraryBinary) {
                     staticLibraryFile = file(projectDir.getPath() + "/3rdparty/googletest-master/googletest/build/" + findGoogleTestStaticLib(targetPlatform))
                 }
             }
-        }
-*/    }
+        }  */
+    }
     components {
         gtest(NativeLibrarySpec) {
             sources {

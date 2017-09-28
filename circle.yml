@@ -67,13 +67,13 @@ jobs:
             ./gradlew greeterSharedLibrary
             ./gradlew shapeyStaticLibrary
             ./gradlew shapeySharedLibrary
-            ./gradlew mainyExecutable
+            ./gradlew mainExecutable
       - run:
           name: Run with Gradle
           command: |
             set -x
             echo "Run with Gradle ..."
-            LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${PWD}/build/libs/greeter/shared/:${PWD}/build/libs/shapey/shared/ ${PWD}/build/exe/mainy/mainy
+            LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${PWD}/build/libs/greeter/shared/:${PWD}/build/libs/shapey/shared/ ${PWD}/build/exe/main/main
       - store_artifacts:
           path: build/exe/
           destination: build-exe
