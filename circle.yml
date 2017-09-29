@@ -16,7 +16,6 @@ jobs:
           command: |
             set -x
             echo "Setup Make Prerequisites ..."
-            sudo apt-get install --yes build-essential
             gcc --version
       - run:
           name: Get Submodule(s)
@@ -62,12 +61,6 @@ jobs:
             echo 'export GTEST_DIR=${THIRDPARTY_DIR}/googletest-master/googletest' >> $BASH_ENV
             echo 'export GMOCK_DIR=${THIRDPARTY_DIR}/googletest-master/googlemock' >> $BASH_ENV
       - run:
-          name: Update & Upgrade
-          command: |
-            set -x
-            sudo apt-get update
-            sudo apt-get upgrade
-      - run:
           name: Check Version
           command: |
             set -x
@@ -80,7 +73,6 @@ jobs:
           command: |
             set -x
             echo "Setup CircleCI Prerequisites ..."
-            sudo apt-get install --yes pkg-config zip g++ zlib1g-dev unzip python
             gcc --version
       - run:
           name: Get Submodule(s)
