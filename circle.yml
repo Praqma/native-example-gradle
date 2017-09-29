@@ -2,26 +2,10 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:jdk
-    working_directory: ~/praqma/native-example-gradle
+      - image: praqma/native-gradle
+    working_directory: /code
     steps:
       - checkout
-      - run:
-          name: Interpolating Environment Variables to Set Other Environment Variables
-          # If you need to interpolate other environment variables to set an environment variable, the only place to do this at the moment is in bash.
-          # CircleCI 2.0 automatically sets a $BASH_ENV variable to a random name in /tmp, and will source this file for each step.
-          # https://circleci.com/docs/2.0/env-vars/#interpolating-environment-variables-to-set-other-environment-variables
-          command: |
-            echo 'export DEBIAN_FRONTEND=noninteractive' >> $BASH_ENV
-            echo 'export THIRDPARTY_DIR=${PWD}/3rdparty' >> $BASH_ENV
-            echo 'export GTEST_DIR=${THIRDPARTY_DIR}/googletest-master/googletest' >> $BASH_ENV
-            echo 'export GMOCK_DIR=${THIRDPARTY_DIR}/googletest-master/googlemock' >> $BASH_ENV
-      - run:
-          name: Update & Upgrade
-          command: |
-            set -x
-            sudo apt-get update
-            sudo apt-get upgrade
       - run:
           name: Check Version
           command: |
@@ -37,21 +21,7 @@ jobs:
       - run:
           name: Get Submodule(s)
           command: |
-            git submodule init
-            git submodule update
-      - run:
-          name: Setup Google Test
-          command: |
-            set -x
-            echo "Setup Google Test ..."
-            echo "Build Static Library for Google Test ..."
-            mkdir ${GTEST_DIR}/build ${GTEST_DIR}/obj
-            g++ -isystem ${GTEST_DIR}/include -I${GTEST_DIR} \
-                -pthread -c ${GTEST_DIR}/src/gtest-all.cc \
-                -o ${GTEST_DIR}/obj/gtest-all.o
-            ar -rv ${GTEST_DIR}/build/libgtest.a \
-                ${GTEST_DIR}/obj/gtest-all.o
-            ar -t ${GTEST_DIR}/build/libgtest.a
+            git submodule update --init
       - run:
           name: List Gradle Tasks
           command: |
@@ -63,17 +33,13 @@ jobs:
           command: |
             set -x
             echo "Build with Gradle ..."
-            ./gradlew greeterStaticLibrary
-            ./gradlew greeterSharedLibrary
-            ./gradlew shapeyStaticLibrary
-            ./gradlew shapeySharedLibrary
-            ./gradlew mainExecutable
+            ./gradlew --no-daemon build
       - run:
           name: Run with Gradle
           command: |
             set -x
             echo "Run with Gradle ..."
-            LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${PWD}/build/libs/greeter/shared/:${PWD}/build/libs/shapey/shared/ ${PWD}/build/exe/main/main
+            /code/build/exe/main/main
       - store_artifacts:
           path: build/exe/
           destination: build-exe
@@ -121,33 +87,6 @@ jobs:
           command: |
             git submodule init
             git submodule update
-      - run:
-          name: Setup Google Test
-          command: |
-            set -x
-            echo "Setup Google Test ..."
-            echo "Build Static Library for Google Test ..."
-            mkdir ${GTEST_DIR}/build ${GTEST_DIR}/obj
-            g++ -isystem ${GTEST_DIR}/include -I${GTEST_DIR} \
-                -pthread -c ${GTEST_DIR}/src/gtest-all.cc \
-                -o ${GTEST_DIR}/obj/gtest-all.o
-            ar -rv ${GTEST_DIR}/build/libgtest.a \
-                ${GTEST_DIR}/obj/gtest-all.o
-            ar -t ${GTEST_DIR}/build/libgtest.a
-      - run:
-          name: Test with Gradle on Google Test
-          command: |
-            set -x
-            echo "Test with Gradle on Google Test ..."
-            ./gradlew build
-      - store_artifacts:
-          path: build/exe/
-          destination: build-exe
-      - store_artifacts:
-          path: build/test-results/
-          destination: build-test-results
-      - store_artifacts:
-          path: googletest-master/googletest/build/
 workflows:
   version: 2
   build_and_test:

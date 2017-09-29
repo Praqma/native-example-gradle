@@ -27,7 +27,9 @@ See [native](https://github.com/Praqma/native) repository for more examples.
 
 Run `git submodule update --init` to initialize the googletest submodule.
 
-Run `./gradlew build`
+Run `docker run --rm -it -v $PWD:/code -w /code praqma/native-gradle ./gradlew build`
+
+Run `docker run --rm -it -v $PWD:/code -v ~/.gradle:/root/.gradle -w /code praqma/native-gradle /code/build/exe/main/main`
 
 ## Todo
 
