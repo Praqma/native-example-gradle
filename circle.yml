@@ -46,7 +46,7 @@ jobs:
           path: googletest-master/googletest/build/
   test:
     docker:
-      - image: circleci/openjdk:jdk
+      - image: praqma/native-gradle
     working_directory: ~/praqma/native-example-gradle
     steps:
       - checkout
