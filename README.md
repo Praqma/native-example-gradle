@@ -27,7 +27,7 @@ See [native](https://github.com/Praqma/native) repository for more examples.
 
 ## Lesson Learned
 
-### The `undefined reference to ``main'` error. 
+* The `undefined reference to ``main'` error. 
 
 We did not include the Google {Test,Mock} directly as `NativeLibrarySpec` into Gradle environment.
 For each `NativeExecutableSpec` and `NativeLibrarySpec` defined in your project, Gradle will create a matching `GoogleTestTestSuiteSpec` component,named `${component.name}Test`.<sup>[Reference](https://docs.gradle.org/current/userguide/native_software.html#native_binaries:google_test)</sup>
