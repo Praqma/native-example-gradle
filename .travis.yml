@@ -1,43 +1,27 @@
+sudo: required
+
+services:
+  - docker
+
 language: cpp
 
 compiler:
   - clang
   - gcc
 
+notifications:
+  email:
+    on_success: never # default: change
+    on_failure: change # default: always
+
 before_install:
-  - sudo apt-get update --quiet
-  - sudo apt-get install --yes build-essential
-  - sudo apt-get install --yes
+  - docker pull praqma/native-gradle:latest
 
 script:
+  - cat /etc/*-release
   - clang --version
   - gcc --version
-  -
-  - export DEBIAN_FRONTEND=noninteractive
-  - export THIRDPARTY_DIR=${PWD}/3rdparty
-  - export GTEST_DIR=${THIRDPARTY_DIR}/googletest-master/googletest
-  - export GMOCK_DIR=${THIRDPARTY_DIR}/googletest-master/googlemock
-  -
-  - echo "Setup Google Test ..."
-  - echo "Build Static Library for Google Test ..."
-  - mkdir ${GTEST_DIR}/build ${GTEST_DIR}/obj
-  - g++ -isystem ${GTEST_DIR}/include -I${GTEST_DIR}
-      -pthread -c ${GTEST_DIR}/src/gtest-all.cc
-      -o ${GTEST_DIR}/obj/gtest-all.o
-  - ar -rv ${GTEST_DIR}/build/libgtest.a
-      ${GTEST_DIR}/obj/gtest-all.o
-  - ar -t ${GTEST_DIR}/build/libgtest.a
-  -
-  - echo "List Gradle Tasks ..."
-  - ./gradlew tasks
-  -
-  - echo "Build with Gradle ..."
-  - ./gradlew greeterStaticLibrary
-  - ./gradlew greeterSharedLibrary
-  - ./gradlew mainExecutable
-  -
-  - echo "Run with Gradle ..."
-  - LD_LIBRARY_PATH=build/libs/greeter/shared/ ./build/exe/main/main
-  -
-  - echo "Test with Gradle on Google Test ..."
-  - ./gradlew build
+  - java -version
+  - ls -al ${PWD}
+  - docker run --rm --workdir=/workspace --volume ${PWD}:/workspace praqma/native-gradle:latest ./build.sh
+  - docker run --rm --workdir=/workspace --volume ${PWD}:/workspace praqma/native-gradle:latest ./test.sh

@@ -2,52 +2,8 @@ version: 2
 jobs:
   build:
     docker:
-      - image: praqma/native-gradle
-    working_directory: /code
-    steps:
-      - checkout
-      - run:
-          name: Check Version
-          command: |
-            set -x
-            java -version
-      - run:
-          name: Setup Make Prerequisites
-          command: |
-            set -x
-            echo "Setup Make Prerequisites ..."
-            gcc --version
-      - run:
-          name: Get Submodule(s)
-          command: |
-            git submodule update --init
-      - run:
-          name: List Gradle Tasks
-          command: |
-            set -x
-            echo "List Gradle Tasks ..."
-            ./gradlew tasks
-      - run:
-          name: Build with Gradle
-          command: |
-            set -x
-            echo "Build with Gradle ..."
-            ./gradlew --no-daemon build
-      - run:
-          name: Run with Gradle
-          command: |
-            set -x
-            echo "Run with Gradle ..."
-            /code/build/exe/main/main
-      - store_artifacts:
-          path: build/exe/
-          destination: build-exe
-      - store_artifacts:
-          path: googletest-master/googletest/build/
-  test:
-    docker:
-      - image: praqma/native-gradle
-    working_directory: ~/praqma/native-example-gradle
+      - image: praqma/native-gradle:latest
+    working_directory: /workspace
     steps:
       - checkout
       - run:
@@ -57,28 +13,43 @@ jobs:
           # https://circleci.com/docs/2.0/env-vars/#interpolating-environment-variables-to-set-other-environment-variables
           command: |
             echo 'export DEBIAN_FRONTEND=noninteractive' >> $BASH_ENV
-            echo 'export THIRDPARTY_DIR=${PWD}/3rdparty' >> $BASH_ENV
-            echo 'export GTEST_DIR=${THIRDPARTY_DIR}/googletest-master/googletest' >> $BASH_ENV
-            echo 'export GMOCK_DIR=${THIRDPARTY_DIR}/googletest-master/googlemock' >> $BASH_ENV
+            echo 'export WORKSPACE_DIR=/workspace' >> $BASH_ENV
+      - run:
+          name: Version
+          command: |
+            set -x
+            cat /etc/*release
+      - run:
+          name: Build
+          command: |
+            set -x
+            cd ${WORKSPACE_DIR}
+            bash ${PWD}/build.sh
+  test:
+    docker:
+      - image: praqma/native-gradle:latest
+    working_directory: /workspace
+    steps:
+      - checkout
+      - run:
+          name: Interpolating Environment Variables to Set Other Environment Variables
+          # If you need to interpolate other environment variables to set an environment variable, the only place to do this at the moment is in bash.
+          # CircleCI 2.0 automatically sets a $BASH_ENV variable to a random name in /tmp, and will source this file for each step.
+          # https://circleci.com/docs/2.0/env-vars/#interpolating-environment-variables-to-set-other-environment-variables
+          command: |
+            echo 'export DEBIAN_FRONTEND=noninteractive' >> $BASH_ENV
+            echo 'export WORKSPACE_DIR=/workspace' >> $BASH_ENV
       - run:
           name: Check Version
           command: |
             set -x
-            java -version
+            cat /etc/*release
       - run:
-          name: Setup CircleCI Prerequisites
-          # The git openssh tar gzip ca-certificates tools required for CircleCI.
-          # The alpine-sdk is similar to build-essential, need to be verified whether it is needed.
-          # https://circleci.com/docs/2.0/custom-images/#adding-required-and-custom-tools-or-files
+          name: Test
           command: |
             set -x
-            echo "Setup CircleCI Prerequisites ..."
-            gcc --version
-      - run:
-          name: Get Submodule(s)
-          command: |
-            git submodule init
-            git submodule update
+            cd ${WORKSPACE_DIR}
+            bash ${PWD}/test.sh
 workflows:
   version: 2
   build_and_test:
