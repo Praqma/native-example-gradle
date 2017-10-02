@@ -23,4 +23,4 @@ See [native](https://github.com/Praqma/native) repository for more examples.
 
 ## Todo
 
-- [ ] Use static libraries.
+* [ ] Use static libraries.
