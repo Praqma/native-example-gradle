@@ -14,23 +14,13 @@ Building with [Gradle](https://gradle.org/).
 
 See [native](https://github.com/Praqma/native) repository for more examples.
 
-<!-- GitHub
+## Steps
 
-[![GitHub Stars](https://img.shields.io/github/stars/praqma/native-example-gradle.svg?style=social&label=Star)](https://img.shields.io/github/stars/praqma/native-example-gradle.svg?style=social&label=Star)
-[![GitHub Forks](https://img.shields.io/github/forks/praqma/native-example-gradle.svg?style=social&label=Fork)](https://img.shields.io/github/forks/praqma/native-example-gradle.svg?style=social&label=Fork)
-[![GitHub Watchers](https://img.shields.io/github/watchers/praqma/native-example-gradle.svg?style=social&label=Watch)](https://img.shields.io/github/watchers/praqma/native-example-gradle.svg?style=social&label=Watch)
-[![GitHub Tags](https://img.shields.io/github/tag/praqma/native-example-gradle.svg)](https://img.shields.io/github/tag/praqma/native-example-gradle.svg)
-[![GitHub Releases](https://img.shields.io/github/release/praqma/native-example-gradle.svg)](https://img.shields.io/github/release/praqma/native-example-gradle.svg)
-[![GitHub Issues](https://img.shields.io/github/issues/praqma/native-example-gradle.svg)](https://img.shields.io/github/issues/praqma/native-example-gradle.svg) -->
-
-## Getting started
-
-Run `git submodule update --init` to initialize the googletest submodule.
-
-Run `docker run --rm -it -v $PWD:/code -w /code praqma/native-gradle ./gradlew build`
-
-Run `docker run --rm -it -v $PWD:/code -v ~/.gradle:/root/.gradle -w /code praqma/native-gradle /code/build/exe/main/main`
+* Build image: `./dockerize.sh`
+* Run container: `./containerize.sh`
+* Build example (inside container): `./build.sh`
+* Test example (inside container): `./test.sh`
 
 ## Todo
 
-Move to static libraries
+- [ ] Use static libraries.
