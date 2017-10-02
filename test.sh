@@ -16,5 +16,8 @@ fi
 
 git submodule update --init --force
 
+# Build Google Mock with Google Test
+# https://github.com/google/googletest/tree/master/googlemock#preparing-to-build-unix-only
+
 ./build-googlemock.sh
 ./gradlew --no-daemon check

@@ -21,5 +21,5 @@ git submodule update --init --force
 
 ./build-googlemock.sh
 ./gradlew --no-daemon build
-
+# ./gradlew --no-daemon checkMainExecutable
 LD_LIBRARY_PATH=${WORKSPACE_DIR}/build/libs/greeter/shared/:${WORKSPACE_DIR}/build/libs/shapey/shared/ ${WORKSPACE_DIR}/build/exe/main/main
