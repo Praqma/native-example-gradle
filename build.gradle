@@ -75,7 +75,7 @@ model {
 
     binaries {
         all {
-            println "binary=${name} buildable=${buildable}"
+            // println "binary=${name} buildable=${buildable}"
         }
         withType(SharedLibraryBinarySpec) {
             if (toolChain in VisualCpp) {
@@ -94,11 +94,11 @@ model {
 }
 
 def findGoogleTestStaticLib(Platform p) {
-    println System.getProperty("os.name") + System.getProperty("os.version") + System.getProperty("os.arch")
-    String osName = org.gradle.internal.os.OperatingSystem.current().getName();
-    String osVersion = org.gradle.internal.os.OperatingSystem.current().getVersion();
-    String osArch = org.gradle.internal.os.OperatingSystem.current().getArch();
-    println "*** $osName, $osVersion, $osArch was detected."
+    // println System.getProperty("os.name") + System.getProperty("os.version") + System.getProperty("os.arch")
+    // String osName = org.gradle.internal.os.OperatingSystem.current().getName();
+    // String osVersion = org.gradle.internal.os.OperatingSystem.current().getVersion();
+    // String osArch = org.gradle.internal.os.OperatingSystem.current().getArch();
+    // println "*** $osName, $osVersion, $osArch was detected."
 
     if (p.operatingSystem.windows) {
         return "Release/gtest.lib"
