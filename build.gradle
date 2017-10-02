@@ -21,10 +21,10 @@ model {
         }
     }
     components {
-        // We did not include the Google Test directly into Gradle environment.
-        // The `google-test` plugin will automatically create test to test itself.
-        // It caused some undefined main entry point.
-        
+        // We did not include the Google {Test,Mock} directly as `NativeLibrarySpec` into Gradle environment.
+        // For each `NativeExecutableSpec` and `NativeLibrarySpec` defined in your project, Gradle will create a matching `GoogleTestTestSuiteSpec` component,named `${component.name}Test`.<sup>[Reference](https://docs.gradle.org/current/userguide/native_software.html#native_binaries:google_test)</sup>
+        // It has caused undefined main entry point.
+                
         /*
         See file:///workspace/build/tmp/linkGtestTestGoogleTestExe/output.txt for all output for linkGtestTestGoogleTestExe.
         linking gtestTest failed.
