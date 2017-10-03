@@ -14,8 +14,6 @@ if [ "$PWD" != "$WORKSPACE_DIR" ]; then
   exit 1
 fi
 
-git submodule update --init --force
-
 # Build Google Mock with Google Test
 # https://github.com/google/googletest/tree/master/googlemock#preparing-to-build-unix-only
 
