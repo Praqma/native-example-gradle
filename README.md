@@ -21,10 +21,6 @@ See [native](https://github.com/Praqma/native) repository for more examples.
 * Build example (inside container): `./build.sh`
 * Test example (inside container): `./test.sh`
 
-## Todo
-
-* [x] ~~Use static libraries.~~
-
 ## Lesson Learned
 
 * The `undefined reference to ``main'` error. 
