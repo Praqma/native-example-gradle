@@ -25,7 +25,7 @@ See [native](https://github.com/Praqma/native) repository for more examples.
 
 * The ``undefined reference to `main'`` error.
 
-We did not include the Google {Test,Mock} directly as `NativeLibrarySpec` into Gradle environment.
+We did not include the Google {Test,Mock} as `NativeLibrarySpec` _directly_ into Gradle environment.
 For each `NativeExecutableSpec` and `NativeLibrarySpec` defined in your project, Gradle will create a matching `GoogleTestTestSuiteSpec` component,named `${component.name}Test`. It has caused undefined main entry point. Read [documentation](https://docs.gradle.org/current/userguide/native_software.html#native_binaries:google_test) for more information.
 
 Google Test Error
@@ -49,3 +49,8 @@ collect2: error: ld returned 1 exit status
 
 Finished linkGmockTestGoogleTestExe, see full log file:///workspace/build/tmp/linkGmockTestGoogleTestExe/output.txt.
 ```
+
+Workaround:
+
+Use `build-googletest.sh` or `build-googlemock.sh` helper scripts to build Google {Test,Mock} before build and test steps.
+Update `build.gradle` to use `PrebuiltLibraries` to include the prebuilt Google {Test,Mock}.
