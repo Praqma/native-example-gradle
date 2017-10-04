@@ -10,13 +10,12 @@
 ![](https://img.shields.io/github/release/praqma/native-example-gradle.svg)
 ![](https://img.shields.io/github/issues/praqma/native-example-gradle.svg)
 
-Building with [Gradle](https://gradle.org/).
+Building with [Gradle](https://gradle.org/) inside [container](https://hub.docker.com/r/praqma/native-gradle/).
 
 See [native](https://github.com/Praqma/native) repository for more examples.
 
 ## Steps
 
-* Build image: `./docker-build.sh`
 * Run container: `./docker-run.sh`
 * Build example (inside container): `./build.sh`
 * Test example (inside container): `./test.sh`

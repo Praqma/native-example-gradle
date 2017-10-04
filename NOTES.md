@@ -1,5 +1,9 @@
 # Notes
 
+## Steps
+
+* Build image: `./docker-build.sh`
+
 ## Lesson Learned
 
 * The ``undefined reference to `main'`` error.
