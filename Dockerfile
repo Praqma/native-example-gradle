@@ -2,7 +2,8 @@ FROM openjdk:8
 
 RUN apt-get update \
   && apt-get install --yes \
-  build-essential
+  build-essential \
+  procps
 
 RUN apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
